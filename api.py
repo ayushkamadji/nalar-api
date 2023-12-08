@@ -67,30 +67,14 @@ def predict():
   elif prediction_result == 'Non-Fraud':
       fraud_indicator = [(key, value) for key, value in sorted_contributions if value > 0]
 
-  def create_json_object(non_list_data, list_data, column_name_list_data):
-      # Add the contributions to the input dictionary
-      non_list_data[column_name_list_data] = list_data
-
-      # Convert the input dictionary to a JSON string
-      json_data = json.dumps(non_list_data, indent=2)  # The 'indent' parameter is optional for pretty formatting
-
-      return json_data
-
-  input_data = {
-      'Name':name,
-      'Phone':int(phone),
-      'KTP':int(ktp),
-      'Prediction_result':prediction_result,
-      'Grade':grade,
-      'Score':score
+  result = {
+      'name': name,
+      'phone': phone,
+      'ktp': ktp,
+      'prediction_result': prediction_result,
+      'grade': grade,
+      'score': score,
+      'fraud_indicator': fraud_indicator
   }
 
-  json_result = create_json_object(input_data,fraud_indicator,'Fraud_indicator')
-
-  class IntEncoder(json.JSONEncoder):
-      def default(self, obj):
-          if isinstance(obj, int):
-              return int(obj)
-          return super().default(obj)
-
-  return json_result
+  return result
